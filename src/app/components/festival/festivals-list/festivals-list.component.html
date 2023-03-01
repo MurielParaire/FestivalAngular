@@ -1,0 +1,40 @@
+<h1>Festivals</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Nom</th>
+    <th>tables</th>
+    <th>Prix Espace entrée</th>
+    <th>Prix Espace Salle</th>
+    <th>Prix Espace buvette</th>
+    <th>m² entrée</th>
+    <th>m² salle</th>
+    <th>m² buvette</th>
+    <th># tables entrée</th>
+    <th># tables salle</th>
+    <th># tables buvette</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let festival of festivals">
+    <th>{{ festival.id }}</th>
+    <th>{{ festival.name }}</th>
+    <th>{{ festival.tableTotal }}</th>
+    <th>{{ festival.tableprice_1 }}</th>
+    <th>{{ festival.tableprice_2 }}</th>
+    <th>{{ festival.tableprice_3 }}</th>
+    <th>{{ festival.sqmbooked_1 }}</th>
+    <th>{{ festival.sqmbooked_2 }}</th>
+    <th>{{ festival.sqmbooked_3 }}</th>
+    <th>{{ festival.tablemax_1 }}</th>
+    <th>{{ festival.tablemax_2 }}</th>
+    <th>{{ festival.tablemax_3 }}</th>
+    <th><button (click)="select(festival)">Select</button></th>
+  </tr>
+</table>
+
+<app-festival-details
+  *ngIf="festivalSelected"
+  [festival]="festivalSelected"
+  (emitUpdatedFestival)="updateFestival($event)"
+></app-festival-details>
