@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Festival } from 'src/app/models/festivals';
-import { FestivaljsonService } from 'src/app/services/festivaljson.service';
+import { FestivalsService } from 'src/app/services/festivals.service';
 
 @Component({
   selector: 'app-festivals-list',
   templateUrl: './festivals-list.component.html',
   styleUrls: ['./festivals-list.component.css']
 })
-export class FestivalsListComponent {
-  @Input() festivals : Festival[] | null | undefined;
+export class FestivalsListComponent implements OnInit {
+  @Input() festivals: Festival[] | null | undefined;
   @Output() emitUpdatedFestival = new EventEmitter<Festival>();
   festivalSelected?: Festival = undefined;
 
@@ -17,15 +17,23 @@ export class FestivalsListComponent {
     this.festivalSelected = festival
   }
 
-  constructor(private route : ActivatedRoute, private festivalService : FestivaljsonService) {
+  constructor(private route: ActivatedRoute, private festivalService: FestivalsService) {
+  }
+
+  ngOnInit(): void {
+    if (this.route.snapshot.url[0].path == 'festivals') {
+      this.festivalService.getAllFestivals().subscribe((fests: Festival[]) => {
+        this.festivals = fests;
+      })
+    }
   }
 
 
-  select(festival: Festival) :void {
+  select(festival: Festival): void {
     this.festivalSelected = festival;
     this.emitUpdatedFestival.emit(this.festivalSelected)
   }
 
-  
+
 
 }

@@ -10,8 +10,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RootComponent } from './components/root/root/root.component';
 
-import { HttpClientModule } from '@angular/common/http'
-
+import { HttpClientModule } from '@angular/common/http';
+import { FestivalAppComponent } from './festival-app/festival-app.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore'
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http'
     FestivalsListComponent,
     FestivalDetailsComponent,
     MessageComponent,
-    RootComponent
+    RootComponent,
+    FestivalAppComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +33,10 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     RouterModule.forRoot([
       {path: 'festivals', component: FestivalsListComponent},
       {path: 'festival/:festivalId', component: FestivalDetailsComponent},
@@ -34,6 +44,8 @@ import { HttpClientModule } from '@angular/common/http'
       {path: '', redirectTo: '/App', pathMatch: 'full'},
       //{path: '**', component: PageNotFoundComponent}
       ]),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [RootComponent]

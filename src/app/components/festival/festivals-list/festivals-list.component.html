@@ -32,9 +32,3 @@
     <th><button (click)="select(festival)">Select</button></th>
   </tr>
 </table>
-
-<app-festival-details
-  *ngIf="festivalSelected"
-  [festival]="festivalSelected"
-  (emitUpdatedFestival)="updateFestival($event)"
-></app-festival-details>
