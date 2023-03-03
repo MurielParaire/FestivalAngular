@@ -1,9 +1,15 @@
+<app-festivals-list
+  [festivals]="festivals | async"
+  (emitUpdatedFestival)="select($event)"
+>
+</app-festivals-list>
 
+<app-festival-details
+  *ngIf="festivalSelected"
+  [festival]="festivalSelected"
+  (emitUpdatedFestival)="updateFestival($event)"
+></app-festival-details>
 
-  <app-festivals-list [festivals]="festivals" />
-
-  <app-message></app-message>
-
-
+<app-message></app-message>
 
 <router-outlet></router-outlet>

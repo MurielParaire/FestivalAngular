@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Festival } from 'src/app/models/festivals';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { FestivaljsonService } from 'src/app/services/festivaljson.service';
 
 
 @Component({
@@ -16,7 +17,9 @@ export class FestivalDetailsComponent {
 
   public festivalGroup! : FormGroup
 
-  constructor(public fb: FormBuilder) {}
+  constructor(public fb: FormBuilder, private route: ActivatedRoute, private festivaljsonService : FestivaljsonService) {}
+
+
 
   ngOnChanges(){
     this.festivalGroup = this.fb.group({
@@ -26,7 +29,20 @@ export class FestivalDetailsComponent {
     })
   }
 
-  
+  ngOnInit(): void {
+    if (this.route.snapshot.paramMap.has('festivalId')) {
+    const id = this.route.snapshot.paramMap.get('festivalId');
+    /*
+    this.festivaljsonService.getFestival(id).subscribe(
+      (fest: Festival) => {
+      this.festival = fest; this.updateFormFromFestival();
+      }
+    );
+    }
+      else{ this.updateFormFromFestival(); */
+    }
+    
+  }
 
 
   validate(): void {

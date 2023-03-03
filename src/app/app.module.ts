@@ -7,21 +7,35 @@ import { FestivalsListComponent } from './components/festival/festivals-list/fes
 import { FestivalDetailsComponent } from './components/festival/festival-details/festival-details.component';
 import { MessageComponent } from './components/shared/message/message.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { RootComponent } from './components/root/root/root.component';
+
+import { HttpClientModule } from '@angular/common/http'
+
 
 @NgModule({
   declarations: [
     AppComponent,
     FestivalsListComponent,
     FestivalDetailsComponent,
-    MessageComponent
+    MessageComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot([
+      {path: 'festivals', component: FestivalsListComponent},
+      {path: 'festival/:festivalId', component: FestivalDetailsComponent},
+      {path: 'App', component: AppComponent},
+      {path: '', redirectTo: '/App', pathMatch: 'full'},
+      //{path: '**', component: PageNotFoundComponent}
+      ]),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [RootComponent]
 })
 export class AppModule { }
