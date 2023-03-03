@@ -1,0 +1,20 @@
+<h1>Editors</h1>
+
+<table *ngIf="editors">
+  <tr>
+    <th>Id</th>
+    <th>Nom</th>
+    <th>Société</th>
+    <th>Contact</th>
+    <th>Modify</th>
+  </tr>
+  <tr *ngFor="let editor of editors">
+    <th>{{ editor.id }}</th>
+    <th>{{ editor.nom }}</th>
+    <th>{{ editor.nom_societe }}</th>
+    <th>{{ editor.contact }}</th>
+    <th><button (click)="select(editor)">Select</button></th>
+  </tr>
+</table>
+
+<button (click)="create()">Create new Editor</button>

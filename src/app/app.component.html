@@ -10,6 +10,14 @@
   (emitUpdatedFestival)="updateFestival($event)"
 ></app-festival-details>
 
+<app-editor-list (emitUpdatedEditor)="selectEditor($event)"> </app-editor-list>
+
+<app-festival-details
+  *ngIf="festivalSelected"
+  [festival]="festivalSelected"
+  (emitUpdatedFestival)="updateFestival($event)"
+></app-festival-details>
+
 <app-message></app-message>
 
 <router-outlet></router-outlet>

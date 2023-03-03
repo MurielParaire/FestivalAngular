@@ -1,10 +1,15 @@
+<h1 *ngIf="this.festival">{{ this.festival.name }}</h1>
 <h2>Details :</h2>
 
 <form *ngIf="festivalGroup" [formGroup]="festivalGroup" (ngSubmit)="validate()">
   <label>Name: <input type="text" formControlName="name" /></label>
-  <label>Tables: <input type="number" formControlName="tablesEntree" /></label>
   <label
-    >EntrancePrice: <input type="number" formControlName="entrancePrice"
+    >Tables d'entrées : <input type="number" formControlName="tablesEntree"
+  /></label>
+  <label
+    >Prix d'entrée : <input type="number" formControlName="entrancePrice"
   /></label>
   <button type="submit" [disabled]="!festivalGroup.valid">Submit</button>
 </form>
+
+<th><button (click)="delete()">Delete</button></th>

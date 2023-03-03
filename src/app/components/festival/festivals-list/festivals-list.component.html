@@ -14,7 +14,7 @@
     <th># tables entrée</th>
     <th># tables salle</th>
     <th># tables buvette</th>
-    <th></th>
+    <th>Modify</th>
   </tr>
   <tr *ngFor="let festival of festivals">
     <th>{{ festival.id }}</th>
@@ -32,3 +32,5 @@
     <th><button (click)="select(festival)">Select</button></th>
   </tr>
 </table>
+
+<button (click)="create()">Create new festival</button>

@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Festival } from 'src/app/models/festivals';
-import { FestivaljsonService } from 'src/app/services/festivaljson.service';
 import { FestivalsService } from 'src/app/services/festivals.service';
 
 
@@ -18,7 +17,7 @@ export class FestivalDetailsComponent {
 
   public festivalGroup!: FormGroup
 
-  constructor(public fb: FormBuilder, private route: ActivatedRoute, private festivalService: FestivalsService) { }
+  constructor(public fb: FormBuilder, private route: ActivatedRoute, private festivalService: FestivalsService, private router: Router) { }
 
   updateFormFromFestival() {
     this.festivalGroup = this.fb.group({
@@ -34,15 +33,18 @@ export class FestivalDetailsComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot)
-    if (this.route.snapshot.paramMap.has('festivalId')) {
-      const id = this.route.snapshot.paramMap.get('festivalId');
-      if (id != null) {
+    if (this.route.snapshot.paramMap.has('id')) {
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id != null && id != undefined && id != '0') {
         this.festivalService.getFestival(id).subscribe((fest: Festival) => {
           console.log(fest)
           this.festival = fest;
           this.updateFormFromFestival()
         })
+      }
+      if (id == '0') {
+        this.festival = new Festival('')
+        this.updateFormFromFestival()
       }
     }
 
@@ -56,7 +58,19 @@ export class FestivalDetailsComponent {
 
     console.log(this.festival)
 
+    if (this.festival.id == undefined) {
+      this.festivalService.addNewFestival(this.festival)
+    }
+    else {
+      this.festivalService.addUpdateFestival(this.festival)
+    }
+    this.updateFormFromFestival()
     this.emitUpdatedFestival.emit(this.festival)
+  }
+
+  delete(): void {
+    this.festivalService.deleteFestival(this.festival)
+    this.router.navigate(['/app'])
   }
 
 }

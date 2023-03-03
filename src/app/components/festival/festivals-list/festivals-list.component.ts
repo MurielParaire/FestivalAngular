@@ -14,6 +14,9 @@ export class FestivalsListComponent implements OnInit {
   festivalSelected?: Festival = undefined;
 
   updateFestival(festival: Festival): void {
+    this.festivalService.getAllFestivals().subscribe((fests: Festival[]) => {
+      this.festivals = fests;
+    })
     this.festivalSelected = festival
   }
 
@@ -34,6 +37,11 @@ export class FestivalsListComponent implements OnInit {
     this.emitUpdatedFestival.emit(this.festivalSelected)
   }
 
+
+  create(): void {
+    this.festivalSelected = new Festival('');
+    this.emitUpdatedFestival.emit(this.festivalSelected)
+  }
 
 
 }

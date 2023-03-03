@@ -1,0 +1,13 @@
+<h1 *ngIf="this.editor">{{ this.editor.nom }}</h1>
+<h2>Details :</h2>
+
+<form *ngIf="editorGroup" [formGroup]="editorGroup" (ngSubmit)="validate()">
+  <label>Name: <input type="text" formControlName="name" /></label>
+  <label>Societe : <input type="text" formControlName="societe" /></label>
+  <label>Contact : <input type="text" formControlName="contact" /></label>
+  <button type="submit" [disabled]="!editorGroup.valid">Submit</button>
+</form>
+
+<button (click)="delete()">Delete</button>
+
+<app-jeux-list>[jeux]="jeux"></app-jeux-list>

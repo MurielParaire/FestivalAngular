@@ -22,18 +22,11 @@ export class FestivalsService {
   }
 
 
-  json2Festival(json: any): Festival {
-    return new Festival(
-      json.name, json.id, json.tablemax_1, json.tablemax_2,
-      json.tablemax_3, json.tableprice_1, json.tableprice_2, json.tableprice_3,
-      json.sqmprice_1, json.sqmprice_2, json.sqmprice_3);
-  }
-
   doc2Festival(doc: any): Festival {
     return new Festival(
       doc.name, doc.id, doc.tablemax_1, doc.tablemax_2,
       doc.tablemax_3, doc.tableprice_1, doc.tableprice_2, doc.tableprice_3,
-      doc.sqmprice_1, doc.sqmprice_2, doc.sqmprice_3
+      doc.sqmprice_1, doc.sqmprice_2, doc.sqmprice_3, doc.tablebooked_1, doc.tablebooked_2, doc.tablebooked_3
     );
   }
 
@@ -41,7 +34,7 @@ export class FestivalsService {
     return this.festivalCollection
       .valueChanges({ idField: "id" }).pipe(
         tap(doc => { this.messageService.log(`doc=${JSON.stringify(doc)}`) }),
-        map(data => data.map(doc => this.json2Festival(doc)))
+        map(data => data.map(doc => this.doc2Festival(doc)))
       );
   }
 

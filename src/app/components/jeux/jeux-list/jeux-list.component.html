@@ -1,0 +1,27 @@
+<h1>Jeux</h1>
+
+<table *ngIf="jeux">
+  <tr>
+    <th>Id</th>
+    <th>Nom</th>
+    <th>Type</th>
+    <th>Age min</th>
+    <th>Age max</th>
+    <th>Duree</th>
+    <th>Nombre joueurs min</th>
+    <th>Nombre joueurs max</th>
+    <th>Modify</th>
+  </tr>
+  <tr *ngFor="let jeu of jeux">
+    <th>{{ jeu.id }}</th>
+    <th>{{ jeu.nom }}</th>
+    <th>{{ jeu.type }}</th>
+    <th>{{ jeu.age_min }}</th>
+    <th>{{ jeu.age_max }}</th>
+    <th>{{ jeu.nb_joueurs_min }}</th>
+    <th>{{ jeu.nb_joueurs_max }}</th>
+    <th><button (click)="select(jeu)">Select</button></th>
+  </tr>
+</table>
+
+<button (click)="create()">Create new Game for this editor</button>

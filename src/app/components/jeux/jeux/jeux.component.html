@@ -1,0 +1,21 @@
+<div *ngIf="this.jeu">
+  <h1>{{ this.jeu.nom }}</h1>
+  <h2>Details :</h2>
+
+  <form *ngIf="jeuGroup" [formGroup]="jeuGroup" (ngSubmit)="validate()">
+    <label>Name: <input type="text" formControlName="name" /></label>
+    <label
+      >Type :<select formControlName="type">
+        <option default>Enfant</option>
+        <option>Famille</option>
+        <option>Initie</option>
+        <option>Expert</option>
+        <option>Jeu de role</option>
+      </select></label
+    >
+    <label>Age min : <input type="nombre" formControlName="agemin" /></label>
+    <label>Age max : <input type="nombre" formControlName="agemax" /></label>
+    <button type="submit" [disabled]="!jeuGroup.valid">Submit</button>
+  </form>
+  <th><button (click)="delete()">Delete</button></th>
+</div>
