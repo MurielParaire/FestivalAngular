@@ -10,4 +10,13 @@
 
 <button (click)="delete()">Delete</button>
 
-<app-jeux-list>[jeux]="jeux"></app-jeux-list>
+<app-jeux-list
+  [jeux]="jeux"
+  (emitUpdatedJeu)="updateJeu($event)"
+></app-jeux-list>
+
+<app-jeux
+  [jeu]="selectedJeu"
+  (emitUpdateJeu)="updateJeuDb($event)"
+  (emitDeleteJeu)="deleteJeu($event)"
+></app-jeux>

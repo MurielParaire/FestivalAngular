@@ -12,18 +12,21 @@ import { MessageService } from './message.service';
 })
 export class JeuxService {
 
-  private path = '/editeur/x/jeux/';
-  private jeuStore: AngularFirestore;
-  private jeuCollection: AngularFirestoreCollection<Jeu>;
+  private path = '/editeur/';
+  private editorStore: AngularFirestore;
+  private editorCollection: AngularFirestoreCollection<Jeu>;
+  private collName = 'jeux'
 
   constructor(private db: AngularFirestore,
     private messageService: MessageService) {
-    this.jeuStore = db;
-    this.jeuCollection = db.collection(this.path);
+    this.editorStore = db;
+    this.editorCollection = db.collection(this.path);
   }
 
 
   doc2Jeu(doc: any): Jeu {
+    console.log('jeu')
+    console.log(doc)
     return new Jeu(
       doc.nom,
       doc.id,
@@ -35,30 +38,41 @@ export class JeuxService {
       doc.nb_joueurs_min);
   }
 
-
   getJeuxForEditor(id: string): any {
-    this.path.replace('x', id)
-    this.jeuCollection = this.db.collection(this.path);
-    return this.jeuCollection.valueChanges().pipe(
-      tap(doc => { this.messageService.log(`doc=${JSON.stringify(doc)}`) }),
-      map(data => console.log(data))
-    ).subscribe();
+    let res = this.editorCollection.doc(id).collection(this.collName)
+
+    return res.valueChanges({ idField: 'id' }).pipe(
+      tap(doc => { this.messageService.log(`jeu=${JSON.stringify(doc)}`) }),
+      map(data => data.map(doc => this.doc2Jeu(doc)))
+    );
   }
 
-  doc2Editor(doc: any): Jeu {
-    console.log(doc)
-    return new Jeu(
-      doc.name,
-      doc.id);
+
+  updateJeu(id: string, jeu: Jeu) {
+    if (jeu.id == null || jeu.id == undefined) {
+      jeu.id = this.editorStore.createId()
+    }
+    this.editorCollection.doc(id).collection(this.collName).doc(jeu.id).set(Object.assign({}, jeu));
   }
 
-  getAllJeux(): Observable<Jeu[]> {
-    return this.jeuCollection
-      .valueChanges({ idField: "id" }).pipe(
-        tap(doc => { this.messageService.log(`doc=${JSON.stringify(doc)}`) }),
-        map(data => data.map(doc => this.doc2Editor(doc)))
-      );
+  addJeuToEditor(id: string, jeu: Jeu) {
+    if (jeu.id == null || jeu.id == undefined) {
+      jeu.id = this.editorStore.createId()
+    }
+    if (jeu.id != null && id != null) {
+      this.editorCollection.doc(id).collection(this.collName).doc(jeu.id).get()
+        .subscribe(doc => {
+          if (!doc.exists) {
+            this.editorCollection.doc(id).collection(this.collName).doc(jeu.id).set(Object.assign({},
+              jeu));
+          } // else doc exists!
+        });
+    }
+
   }
 
+  deleteJeu(id: string, jeu: Jeu) {
+    this.editorStore.doc(this.path + id).collection(this.collName).doc(jeu.id).delete();
+  }
 
 }

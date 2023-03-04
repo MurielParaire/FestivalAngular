@@ -23,7 +23,7 @@ export class EditorService {
 
 
   doc2Editor(doc: any): Editor {
-    let jeux = this.getJeuxForEditor(doc.id)
+    let jeux = this.jeuservice.getJeuxForEditor(doc.id)
     return new Editor(
       doc.id,
       doc.nom,
@@ -41,14 +41,6 @@ export class EditorService {
   }
 
 
-  getJeuxForEditor(id: string): any {
-    let res = this.editorCollection.doc(`${id}`).collection('jeux')
-
-    return res.valueChanges().pipe(
-      tap(doc => { this.messageService.log(`doc=${JSON.stringify(doc)}`) }),
-      map(data => data.map(doc => this.jeuservice.doc2Jeu(doc)))
-    );
-  }
 
 
   addUpdateEditor(Editor: Editor) {

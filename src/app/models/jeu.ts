@@ -7,9 +7,9 @@ export class Jeu {
     public type: string;
     public age_max?: number;
     public age_min?: number;
-    public duree?: string;
-    public nb_joueurs_max?: number;
-    public nb_joueurs_min?: number;
+    public duree?: string = "1h";
+    public nb_joueurs_max?: number = 10;
+    public nb_joueurs_min?: number = 2;
 
 
     public constructor(
@@ -24,12 +24,12 @@ export class Jeu {
     ) {
         this.nom = name;
         this.id = id;
-        this.type = (type) ? type : 'enfant';
+        this.type = (type) ? type : 'Enfant';
         this.age_max = age_max;
         this.age_min = age_min;
-        this.duree = duree;
-        this.nb_joueurs_max = nb_joueurs_max;
-        this.nb_joueurs_min = nb_joueurs_min;
+        this.duree = (duree) ? duree : "2h";
+        this.nb_joueurs_max = (nb_joueurs_max) ? nb_joueurs_max : 10;
+        this.nb_joueurs_min = (nb_joueurs_min) ? nb_joueurs_min : 2;
     }
 
 }

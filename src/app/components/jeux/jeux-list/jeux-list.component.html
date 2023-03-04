@@ -1,5 +1,7 @@
 <h1>Jeux</h1>
 
+<p>{{ jeux }}</p>
+
 <table *ngIf="jeux">
   <tr>
     <th>Id</th>
@@ -24,4 +26,4 @@
   </tr>
 </table>
 
-<button (click)="create()">Create new Game for this editor</button>
+<button (click)="create()">Add a new game to this editor</button>
