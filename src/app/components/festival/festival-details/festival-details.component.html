@@ -13,3 +13,25 @@
 </form>
 
 <th><button (click)="delete()">Delete</button></th>
+
+<app-editor-list
+  [editors]="editors"
+  [readonly]="true"
+  (emitUpdatedEditor)="selectEditor($event)"
+></app-editor-list>
+
+<label>Add an editor :</label>
+<select (change)="onEditorSelected(val.value)" #val>
+  <option default value="null">Select an editor</option>
+  <option *ngFor="let ed of restEditors" [value]="ed.id">
+    {{ ed.nom }}
+  </option>
+</select>
+<button (click)="addEditor()">Add Editor to this festival</button>
+
+<app-editor
+  *ngIf="editor.nom"
+  [editor]="editor"
+  [readonly]="true"
+  (emitRemoveEditor)="removeEditor($event)"
+></app-editor>

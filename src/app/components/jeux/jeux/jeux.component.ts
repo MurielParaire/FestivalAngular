@@ -14,6 +14,7 @@ export class JeuxComponent {
   @Input() jeu: Jeu | undefined;
   @Output() emitUpdateJeu = new EventEmitter<Jeu>();
   @Output() emitDeleteJeu = new EventEmitter<Jeu>();
+  @Input() readonly: boolean = false;
 
   public jeuGroup!: FormGroup;
   constructor(public jeuService: JeuxService, public editorservice: EditorService, public fb: FormBuilder, private route: ActivatedRoute, private router: Router) { }

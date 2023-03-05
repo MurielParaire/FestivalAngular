@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { JeuxComponent } from './components/jeux/jeux/jeux.component';
 import { EditorComponent } from './components/editor/editor/editor.component';
 import { EditorListComponent } from './components/editor/editor-list/editor-list.component';
 import { JeuxListComponent } from './components/jeux/jeux-list/jeux-list.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { JeuxListComponent } from './components/jeux/jeux-list/jeux-list.compone
     EditorComponent,
     EditorListComponent,
     JeuxListComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,13 +54,14 @@ import { JeuxListComponent } from './components/jeux/jeux-list/jeux-list.compone
       { path: 'festival/:id', component: FestivalDetailsComponent },
       { path: 'app', component: AppComponent },
       { path: 'editors', component: EditorListComponent },
-      { path: 'editor/:id', component: EditorComponent },
-      { path: '', redirectTo: '/app', pathMatch: 'full' },
-      //{path: '**', component: PageNotFoundComponent}
+      { path: 'editor/:editorid', component: EditorComponent },
+      { path: '', component: MainComponent },
+      { path: '**', component: MainComponent }
     ]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
+    NgxSelectModule
   ],
   providers: [],
   bootstrap: [RootComponent]

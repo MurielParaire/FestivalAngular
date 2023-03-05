@@ -14,6 +14,8 @@ import { JeuxService } from 'src/app/services/jeux.service';
 export class EditorComponent {
   @Input() editor!: Editor;
   @Output() emitUpdatedEditor = new EventEmitter<Editor>();
+  @Output() emitRemoveEditor = new EventEmitter<Editor>();
+  @Input() readonly: boolean = false;
   public editors: Editor[] | undefined;
   public jeux!: Jeu[];
   public selectedJeu: Jeu | undefined;
@@ -24,7 +26,7 @@ export class EditorComponent {
 
   updateFormFromEditor() {
     this.editorGroup = this.fb.group({
-      name: [this.editor.nom, [Validators.required, Validators.minLength(5)]],
+      name: [this.editor.nom, [Validators.required, Validators.minLength(3)]],
       societe: [this.editor.nom_societe, [Validators.required]],
       contact: [this.editor.contact, [Validators.required]],
     })
@@ -39,8 +41,11 @@ export class EditorComponent {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.paramMap.has('id')) {
-      const id = this.route.snapshot.paramMap.get('id');
+    console.log('editor')
+    console.log(this.editor)
+    if (this.route.snapshot.paramMap.has('editorid')) {
+      console.log('DZDZ')
+      const id = this.route.snapshot.paramMap.get('editorid');
       if (id != null && id != undefined && id != '0') {
         this.editorservice.getEditor(id).subscribe((ed: Editor) => {
           this.editor = ed;
@@ -54,6 +59,11 @@ export class EditorComponent {
         this.updateFormFromEditor()
       }
     }
+    else if (this.editor.id != undefined) {
+      console.log('here')
+      this.getJeux(this.editor.id)
+      this.updateFormFromEditor()
+    }
   }
 
 
@@ -62,8 +72,6 @@ export class EditorComponent {
     this.editor.nom = (this.editorGroup.get('name')?.value == null) ? this.editor.nom : this.editorGroup.get('name')?.value
     this.editor.nom_societe = (this.editorGroup.get('societe')?.value == null) ? this.editor.nom_societe : this.editorGroup.get('societe')?.value
     this.editor.contact = (this.editorGroup.get('contact')?.value == null) ? this.editor.contact : this.editorGroup.get('contact')?.value
-
-    console.log(this.editor)
 
     if (this.editor.id == undefined) {
       this.editorservice.addNewEditor(this.editor)
@@ -76,14 +84,17 @@ export class EditorComponent {
   }
 
   delete(): void {
-    this.editorservice.deleteEditor(this.editor)
-    this.router.navigate(['/app'])
+    if (this.route.snapshot.paramMap.has('editorid')) {
+      this.editorservice.deleteEditor(this.editor)
+      this.router.navigate(['/app'])
+    }
+    else {
+      this.emitRemoveEditor.emit(this.editor)
+    }
   }
 
   deleteJeu(jeu: Jeu): void {
-    console.log('this.editor')
     if (this.editor.id != undefined) {
-      console.log('hi')
       this.jeuservice.deleteJeu(this.editor.id, jeu)
     }
 
@@ -96,13 +107,11 @@ export class EditorComponent {
 
 
   updateJeuDb(jeu: Jeu) {
-    console.log('huo')
     if (this.editor.id != undefined) {
       if (jeu.id == undefined) {
         this.jeuservice.addJeuToEditor(this.editor.id, jeu)
       }
       else {
-        console.log('h')
         this.jeuservice.updateJeu(this.editor.id, jeu)
       }
       this.getJeux(this.editor.id)
@@ -113,8 +122,13 @@ export class EditorComponent {
   getJeux(id: string) {
     this.jeuservice.getJeuxForEditor(id).subscribe((jeux: Jeu[]) => {
       this.jeux = jeux;
-      console.log(this.jeux)
     })
+  }
+
+
+  remove() {
+    console.log('hi')
+    this.emitRemoveEditor.emit(this.editor)
   }
 
 }

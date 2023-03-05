@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Festival } from 'src/app/models/festivals';
 import { FestivalsService } from 'src/app/services/festivals.service';
 
@@ -20,7 +20,7 @@ export class FestivalsListComponent implements OnInit {
     this.festivalSelected = festival
   }
 
-  constructor(private route: ActivatedRoute, private festivalService: FestivalsService) {
+  constructor(private route: ActivatedRoute, private festivalService: FestivalsService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -34,7 +34,18 @@ export class FestivalsListComponent implements OnInit {
 
   select(festival: Festival): void {
     this.festivalSelected = festival;
-    this.emitUpdatedFestival.emit(this.festivalSelected)
+
+    if (this.route.snapshot.url[0].path == 'festivals') {
+      if (festival.id == undefined) {
+        this.router.navigate(['festival/0'])
+      }
+      else {
+        this.router.navigate([`festival/${festival.id}`])
+      }
+    }
+    else {
+      this.emitUpdatedFestival.emit(this.festivalSelected)
+    }
   }
 
 

@@ -3,19 +3,29 @@
   <h2>Details :</h2>
 
   <form *ngIf="jeuGroup" [formGroup]="jeuGroup" (ngSubmit)="validate()">
-    <label>Name: <input type="text" formControlName="name" /></label>
     <label
-      >Type :<select formControlName="type">
-        <option default>Enfant</option>
+      >Name: <input [readonly]="readonly" type="text" formControlName="name"
+    /></label>
+    <label
+      >Type :<select [attr.disabled]="readonly" formControlName="type">
+        <option>Enfant</option>
         <option>Famille</option>
         <option>Initie</option>
         <option>Expert</option>
         <option>Jeu de role</option>
       </select></label
     >
-    <label>Age min : <input type="nombre" formControlName="agemin" /></label>
-    <label>Age max : <input type="nombre" formControlName="agemax" /></label>
-    <button type="submit" [disabled]="!jeuGroup.valid">Submit</button>
+    <label
+      >Age min :
+      <input [readonly]="readonly" type="nombre" formControlName="agemin"
+    /></label>
+    <label
+      >Age max :
+      <input [readonly]="readonly" type="nombre" formControlName="agemax"
+    /></label>
+    <button type="submit" *ngIf="!readonly" [disabled]="!jeuGroup.valid">
+      Submit
+    </button>
   </form>
-  <th><button (click)="delete()">Delete</button></th>
+  <th><button *ngIf="!readonly" (click)="delete()">Delete</button></th>
 </div>

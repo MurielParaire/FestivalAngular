@@ -1,4 +1,5 @@
 import { Optional } from "@angular/core";
+import { Editor } from "./editor";
 
 export class Festival {
    static sqmTable = 6;
@@ -22,6 +23,7 @@ export class Festival {
    public sqmbooked_3: number = 0;
    public revenue: number = 0;
    public visitor: boolean = false;
+   public editors: string[] = []
 
    public get tableTotal(): number { return this.tablemax_1 + this.tablemax_2 + this.tablemax_3; }
 
@@ -40,6 +42,7 @@ export class Festival {
       @Optional() entranceTableBooked: number = 0,
       @Optional() mainRoomTableBooked: number = 0,
       @Optional() cafetTableBooked: number = 0,
+      @Optional() editors: string[] = [],
       @Optional() entranceSqmBooked: number = 0,
       @Optional() mainRoomSqmBooked: number = 0,
       @Optional() cafetSqmBooked: number = 0,
@@ -60,10 +63,12 @@ export class Festival {
       this.tablebooked_1 = entranceTableBooked;
       this.tablebooked_2 = mainRoomTableBooked;
       this.tablebooked_3 = cafetTableBooked;
+      this.editors = editors;
       this.sqmbooked_1 = entranceSqmBooked;
       this.sqmbooked_2 = mainRoomSqmBooked;
       this.sqmbooked_3 = cafetSqmBooked;
       this.revenue = revenue;
-      this.visitor = visitor
+      this.visitor = visitor;
+
    }
 }

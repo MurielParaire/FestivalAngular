@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Editor } from './models/editor';
 import { Festival } from './models/festivals';
+import { EditorService } from './services/editor.service';
 import { FestivalsService } from './services/festivals.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   festivals!: Observable<Festival[]>;
   editorSelected?: Editor | undefined;
 
-  constructor(private festivalService: FestivalsService, private router: Router) { }
+  constructor(private festivalService: FestivalsService, private router: Router, private editorService: EditorService) { }
 
   ngOnInit() {
     this.festivals = this.festivalService.getAllFestivals()
@@ -48,5 +49,10 @@ export class AppComponent implements OnInit {
 
   updateFestival(festival: Festival): void {
     this.festivalSelected = festival
+  }
+
+
+  deleteEditor(editor: Editor) {
+    this.editorService.deleteEditor(editor);
   }
 }

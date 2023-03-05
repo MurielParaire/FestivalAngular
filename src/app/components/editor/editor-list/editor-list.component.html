@@ -17,4 +17,4 @@
   </tr>
 </table>
 
-<button (click)="create()">Create new Editor</button>
+<button (click)="create()" *ngIf="!readonly">Create new Editor</button>

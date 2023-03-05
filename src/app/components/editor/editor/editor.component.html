@@ -2,21 +2,42 @@
 <h2>Details :</h2>
 
 <form *ngIf="editorGroup" [formGroup]="editorGroup" (ngSubmit)="validate()">
-  <label>Name: <input type="text" formControlName="name" /></label>
-  <label>Societe : <input type="text" formControlName="societe" /></label>
-  <label>Contact : <input type="text" formControlName="contact" /></label>
-  <button type="submit" [disabled]="!editorGroup.valid">Submit</button>
+  <label
+    >Name: <input [readonly]="readonly" type="text" formControlName="name"
+  /></label>
+  <label
+    >Societe :
+    <input [readonly]="readonly" type="text" formControlName="societe"
+  /></label>
+  <label
+    >Contact :
+    <input [readonly]="readonly" type="text" formControlName="contact"
+  /></label>
+  <button *ngIf="!readonly" type="submit" [disabled]="!editorGroup.valid">
+    Submit
+  </button>
 </form>
+<div *ngIf="this.editor">
+  <div *ngIf="this.editor.nom">
+    <button *ngIf="!readonly; else elseBlock" (click)="delete()">Delete</button>
+    <ng-template #elseBlock
+      ><button (click)="remove()">
+        Remove Editor from festival
+      </button></ng-template
+    >
+    <app-jeux-list
+      *ngIf="jeux"
+      [jeux]="jeux"
+      [readonly]="readonly"
+      (emitUpdatedJeu)="updateJeu($event)"
+    ></app-jeux-list>
 
-<button (click)="delete()">Delete</button>
-
-<app-jeux-list
-  [jeux]="jeux"
-  (emitUpdatedJeu)="updateJeu($event)"
-></app-jeux-list>
-
-<app-jeux
-  [jeu]="selectedJeu"
-  (emitUpdateJeu)="updateJeuDb($event)"
-  (emitDeleteJeu)="deleteJeu($event)"
-></app-jeux>
+    <app-jeux
+      *ngIf="selectedJeu"
+      [jeu]="selectedJeu"
+      [readonly]="readonly"
+      (emitUpdateJeu)="updateJeuDb($event)"
+      (emitDeleteJeu)="deleteJeu($event)"
+    ></app-jeux>
+  </div>
+</div>

@@ -9,11 +9,14 @@ import { JeuxService } from 'src/app/services/jeux.service';
   styleUrls: ['./jeux-list.component.css']
 })
 export class JeuxListComponent {
-  @Input() jeux: Jeu[] | undefined;
+  @Input() jeux: Jeu[] = [];
+  @Input() readonly: boolean = false;
   @Output() emitUpdatedJeu = new EventEmitter<Jeu>();;
   jeuSelected: Jeu | undefined;
 
-  constructor(public jeuService: JeuxService, public editorservice: EditorService) { }
+  constructor(public jeuService: JeuxService, public editorservice: EditorService) {
+    console.log(this.readonly)
+  }
 
 
   select(jeu: Jeu): void {

@@ -25,8 +25,6 @@ export class JeuxService {
 
 
   doc2Jeu(doc: any): Jeu {
-    console.log('jeu')
-    console.log(doc)
     return new Jeu(
       doc.nom,
       doc.id,
